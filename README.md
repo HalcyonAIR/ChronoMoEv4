@@ -1,70 +1,84 @@
-# ChronoMoEv4 — Bob_Qwen Research
+# ChronoMoEv4
 
-**Milestone achieved:** 66/66 tests passing
-**Phase 8c complete:** Memory bias validation (5-condition A/B experiment) — all gates cleared
+**Bob**: consequence-accumulating control plane for Mixture-of-Experts models.
 
-This repository tracks the **Bob_Qwen** line of Mixture-of-Experts (MoE) research built on Qwen via MLX. It picks up from the ChronoMoE v3 work and focuses on temporal routing, memory bias characterization, and experimental validation infrastructure.
+Bob observes MoE routing decisions, accumulates consequences, and learns when
+to take the cheap path. The model does the thinking. Bob decides how much
+thinking is necessary.
+
+**Version**: v4.0.0-alpha1
+**License**: PolyForm Noncommercial 1.0.0 (see `bob_core/LICENSE`)
+**Backend**: Qwen1.5-MoE-A2.7B on Apple Silicon via MLX
 
 ---
 
-## Milestone: 66/66 Tests Passing
+## Structure
 
-All 66 unit and integration tests pass as of this milestone commit. This marks the cutover point for differentiated Bob_Qwen development.
+```
+bob_core/          Control plane (15 modules)
+backends/          Adapter layer (MLX only)
+experiments/       Experiment scripts + shared prompt corpus
+tests/             70 tests (triad monitors, relational graph, association basins, B1 equivalence)
+designs/           Specifications (triad monitor spec)
+```
 
----
+## Quick Start
 
-## Phase 8c — Memory Bias A/B Experiment
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-memory_experiment.py implements a **5-condition A/B experiment** for memory bias validation.
+# Run tests (no model needed)
+python3 -m pytest tests/ -v
 
-### Conditions
+# Verify imports
+python3 -c "from bob_core import BobSubstrate, BOB_CORE_VERSION; print(BOB_CORE_VERSION)"
 
-| Condition | Description |
+# Run governed experiment (requires Qwen model + MLX)
+source qwen_moe_mlx/bin/activate
+python3 experiments/qwen_governed.py --smoke --seed 42
+
+# Run memory bias validation (Phase 8c)
+python3 experiments/memory_bias.py --smoke --seed 42
+```
+
+## What Bob Does
+
+| Component | What it does |
 |-----------|-------------|
-| C0 | Baseline — no memory, no bias |
-| B1 | Memory ON, bias OFF (plumbing check) |
-| B2 | Memory ON, bias LOW |
-| B3 | Memory ON, bias HIGH |
-| Toggle A | Memory toggled mid-run (contamination check) |
+| Motif store + compound gate | Recognises repeated routing patterns, offers cheap-path shortcut |
+| Three clocks (fast/medium/slow) | Detect instability at different timescales, modulate intervention |
+| Governor + ledgers | Authorise or block cheap-path commits based on scar/cost/commitment history |
+| Triad monitors | Detect angel/devil/maniac expert pathologies per layer |
+| Conflict register | Track angel-devil co-occurrence, mode switching |
+| Relational graph | Store typed entity triples, alias lookup. Inert -- does NOT touch routing |
+| Association basins | Pre-softmax logit bias injection wiring. Plumbing only -- see Phase 8c |
 
-### Smoke Test Results
+## Phase 8c: Memory Bias Validation
 
-Seed 42, warmup=10, active=50
+5-condition A/B experiment testing whether pre-softmax logit bias from
+entity-specific routing signatures does anything useful.
 
-| Gate | Result | Detail |
-|------|--------|--------|
-| Gate 1 (B1=C0) | PASS | B1 identical to C0 — plumbing clean |
-| Gate 2 (Toggle A=C0) | PASS | Graph inert — no routing contamination |
-| Gate 3 (audibility) | AUDIBLE | B2: median_max=0.08, B3: median_max=0.16, 100% coverage |
-| Gate 4 (geometry) | PASS | Neff, entropy, scars all within tolerance |
-| Gate 5 (primary) | B2=NULL, B3=NEGATIVE | Expected in smoke (too few steps for signal) |
+| Gate | What it checks |
+|------|---------------|
+| Gate 1 | B1 (scale=0.0) identical to baseline -- plumbing clean |
+| Gate 2 | Toggle A (graph only) identical to baseline -- graph inert |
+| Gate 3 | Bias audibility in routing units |
+| Gate 4 | Geometry stability (Neff, entropy, scars) |
+| Gate 5 | Primary success metric (synthetic entity loss) |
 
-### Fixes Applied During Smoke Test
+Results: `experiments/phase8c_logs/`
 
-1. Governor constructor — medium_clock must be passed as positional arg
-2. Gate 3 audibility — switched from bias_to_logit_ratio (not wired) to memory_bias_max
-3. Entity tokens — use explicit annotation names instead of raw_text.split() to avoid zorblax and krenthar-institute matching failures
+**Conclusion**: Memory bias is audible but does not improve synthetic entity
+loss at tested scales. Graph-only is the correct architecture at this point.
 
----
+## Tests
 
-## Running the Experiment
+```
+70 passed in 0.5s
 
-    source qwen_moe_mlx/bin/activate
-    python3 memory_experiment.py --seed 42
-    python3 memory_experiment.py --seeds 3
-
----
-
-## Environment
-
-- Model: Bob_Qwen (Qwen-based MoE)
-- Runtime: MLX (Apple Silicon)
-- Virtualenv: qwen_moe_mlx/
-
----
-
-## Roadmap
-
-- Gate 5 signal detection at full step count
-- Multi-seed statistical aggregation
-- Phase 9 planning (post memory-bias characterization)
+tests/test_triad_monitors.py      17 tests  Angel/Devil/Maniac monitors + conflict register
+tests/test_memory_graph.py         25 tests  Relational graph CRUD, serialization, assertion detection
+tests/test_memory_basins.py        24 tests  Association basins, entity linking, bias computation
+tests/test_b1_equivalence.py        4 tests  Deterministic B1=C0 guarantee, cross-run determinism
+```

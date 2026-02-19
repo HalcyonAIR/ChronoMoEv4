@@ -1,0 +1,358 @@
+{
+  "phase": "8c",
+  "description": "Memory Bias Validation Experiment",
+  "seed": 42,
+  "model": "mlx-community/Qwen1.5-MoE-A2.7B-4bit",
+  "warmup_steps": 10,
+  "active_steps": 50,
+  "conditions": {
+    "baseline": {
+      "condition": "baseline",
+      "label": "C0: Baseline (governed, no memory)",
+      "seed": 42,
+      "total_steps": 60,
+      "active_steps": 50,
+      "avg_loss": 2.471575,
+      "cheap_count": 2,
+      "cheap_fraction": 0.04,
+      "entity_summary": {
+        "semantic": {
+          "count": 5,
+          "avg_loss": 4.722656,
+          "min_loss": 4.226562,
+          "max_loss": 6.09375
+        },
+        "synthetic": {
+          "count": 5,
+          "avg_loss": 4.919531,
+          "min_loss": 4.511719,
+          "max_loss": 5.117188
+        },
+        "none": {
+          "count": 40,
+          "avg_loss": 1.884195,
+          "min_loss": 0.979004,
+          "max_loss": 3.396484
+        }
+      },
+      "bias_audibility": null,
+      "scars": {
+        "total_scars": 5,
+        "total_visited": 58,
+        "scar_saturation": 0.0862,
+        "total_debt": 1.0
+      },
+      "wall_seconds": 15.4
+    },
+    "toggle_a": {
+      "condition": "toggle_a",
+      "label": "C1: Toggle A (graph only)",
+      "seed": 42,
+      "total_steps": 60,
+      "active_steps": 50,
+      "avg_loss": 2.471575,
+      "cheap_count": 2,
+      "cheap_fraction": 0.04,
+      "entity_summary": {
+        "semantic": {
+          "count": 5,
+          "avg_loss": 4.722656,
+          "min_loss": 4.226562,
+          "max_loss": 6.09375
+        },
+        "synthetic": {
+          "count": 5,
+          "avg_loss": 4.919531,
+          "min_loss": 4.511719,
+          "max_loss": 5.117188
+        },
+        "none": {
+          "count": 40,
+          "avg_loss": 1.884195,
+          "min_loss": 0.979004,
+          "max_loss": 3.396484
+        }
+      },
+      "bias_audibility": null,
+      "scars": {
+        "total_scars": 5,
+        "total_visited": 58,
+        "scar_saturation": 0.0862,
+        "total_debt": 1.0
+      },
+      "wall_seconds": 15.3
+    },
+    "b1": {
+      "condition": "b1",
+      "label": "C2: B1 (scale=0.0)",
+      "seed": 42,
+      "total_steps": 60,
+      "active_steps": 50,
+      "avg_loss": 2.471575,
+      "cheap_count": 2,
+      "cheap_fraction": 0.04,
+      "entity_summary": {
+        "semantic": {
+          "count": 5,
+          "avg_loss": 4.722656,
+          "min_loss": 4.226562,
+          "max_loss": 6.09375
+        },
+        "synthetic": {
+          "count": 5,
+          "avg_loss": 4.919531,
+          "min_loss": 4.511719,
+          "max_loss": 5.117188
+        },
+        "none": {
+          "count": 40,
+          "avg_loss": 1.884195,
+          "min_loss": 0.979004,
+          "max_loss": 3.396484
+        }
+      },
+      "bias_audibility": null,
+      "scars": {
+        "total_scars": 5,
+        "total_visited": 58,
+        "scar_saturation": 0.0862,
+        "total_debt": 1.0
+      },
+      "wall_seconds": 15.1
+    },
+    "b2": {
+      "condition": "b2",
+      "label": "C3: B2 (scale=0.1)",
+      "seed": 42,
+      "total_steps": 60,
+      "active_steps": 50,
+      "avg_loss": 2.471056,
+      "cheap_count": 2,
+      "cheap_fraction": 0.04,
+      "entity_summary": {
+        "semantic": {
+          "count": 5,
+          "avg_loss": 4.723765,
+          "min_loss": 4.221732,
+          "max_loss": 6.094099
+        },
+        "synthetic": {
+          "count": 5,
+          "avg_loss": 4.913235,
+          "min_loss": 4.49685,
+          "max_loss": 5.123486
+        },
+        "none": {
+          "count": 40,
+          "avg_loss": 1.884195,
+          "min_loss": 0.979004,
+          "max_loss": 3.396484
+        }
+      },
+      "bias_audibility": {
+        "audible_fraction": 1.0,
+        "min_bias_max": 0.03,
+        "median_bias_max": 0.08,
+        "max_bias_max": 0.08,
+        "mean_bias_max": 0.055
+      },
+      "scars": {
+        "total_scars": 5,
+        "total_visited": 58,
+        "scar_saturation": 0.0862,
+        "total_debt": 1.0
+      },
+      "wall_seconds": 15.3
+    },
+    "b3": {
+      "condition": "b3",
+      "label": "C4: B3 (scale=0.2)",
+      "seed": 42,
+      "total_steps": 60,
+      "active_steps": 50,
+      "avg_loss": 2.471886,
+      "cheap_count": 2,
+      "cheap_fraction": 0.04,
+      "entity_summary": {
+        "semantic": {
+          "count": 5,
+          "avg_loss": 4.723405,
+          "min_loss": 4.217813,
+          "max_loss": 6.095592
+        },
+        "synthetic": {
+          "count": 5,
+          "avg_loss": 4.921889,
+          "min_loss": 4.490802,
+          "max_loss": 5.142847
+        },
+        "none": {
+          "count": 40,
+          "avg_loss": 1.884195,
+          "min_loss": 0.979004,
+          "max_loss": 3.396484
+        }
+      },
+      "bias_audibility": {
+        "audible_fraction": 1.0,
+        "min_bias_max": 0.06,
+        "median_bias_max": 0.16,
+        "max_bias_max": 0.16,
+        "mean_bias_max": 0.11
+      },
+      "scars": {
+        "total_scars": 5,
+        "total_visited": 58,
+        "scar_saturation": 0.0862,
+        "total_debt": 1.0
+      },
+      "wall_seconds": 15.8
+    }
+  },
+  "gates": {
+    "gate_1_b1_equals_c0": {
+      "passed": true,
+      "mismatches": [],
+      "total_mismatches": 0,
+      "reason": "IDENTICAL"
+    },
+    "gate_2_toggle_a_equals_c0": {
+      "passed": true,
+      "mismatches": [],
+      "total_mismatches": 0,
+      "reason": "IDENTICAL"
+    },
+    "gate_3_audibility": {
+      "passed": true,
+      "results": {
+        "b2": {
+          "audible": true,
+          "ceiling_breach": false,
+          "stats": {
+            "audible_fraction": 1.0,
+            "min_bias_max": 0.03,
+            "median_bias_max": 0.08,
+            "max_bias_max": 0.08,
+            "mean_bias_max": 0.055
+          }
+        },
+        "b3": {
+          "audible": true,
+          "ceiling_breach": false,
+          "stats": {
+            "audible_fraction": 1.0,
+            "min_bias_max": 0.06,
+            "median_bias_max": 0.16,
+            "max_bias_max": 0.16,
+            "mean_bias_max": 0.11
+          }
+        }
+      }
+    },
+    "gate_4_geometry_b2": {
+      "passed": true,
+      "label": "b2",
+      "neff": {
+        "c0_mean": 23.1682,
+        "test_mean": 23.1703,
+        "ratio": 1.0001,
+        "threshold": 0.7,
+        "passed": true
+      },
+      "entropy": {
+        "c0_mean": 3.406826,
+        "test_mean": 3.406692,
+        "delta_pct": -0.0,
+        "threshold_pct": -30,
+        "passed": true
+      },
+      "scars": {
+        "c0_scars": 5,
+        "test_scars": 5,
+        "ratio": 1.0,
+        "threshold": 2.0,
+        "passed": true
+      }
+    },
+    "gate_4_geometry_b3": {
+      "passed": true,
+      "label": "b3",
+      "neff": {
+        "c0_mean": 23.1682,
+        "test_mean": 23.1633,
+        "ratio": 0.9998,
+        "threshold": 0.7,
+        "passed": true
+      },
+      "entropy": {
+        "c0_mean": 3.406826,
+        "test_mean": 3.406688,
+        "delta_pct": -0.0,
+        "threshold_pct": -30,
+        "passed": true
+      },
+      "scars": {
+        "c0_scars": 5,
+        "test_scars": 5,
+        "ratio": 1.0,
+        "threshold": 2.0,
+        "passed": true
+      }
+    },
+    "gate_5_primary_b2": {
+      "passed": false,
+      "verdict": "NULL (no measurable effect)",
+      "label": "b2",
+      "by_entity_type": {
+        "synthetic": {
+          "count": 5,
+          "mean_loss_delta": -0.006296,
+          "mean_jaccard": 0.0
+        },
+        "semantic": {
+          "count": 5,
+          "mean_loss_delta": 0.001108,
+          "mean_jaccard": 0.0
+        },
+        "none": {
+          "count": 40,
+          "mean_loss_delta": 0.0,
+          "mean_jaccard": 0.0
+        }
+      },
+      "criteria": {
+        "synthetic_improves": true,
+        "synthetic_better_than_none": true,
+        "routing_shift": false
+      }
+    },
+    "gate_5_primary_b3": {
+      "passed": false,
+      "verdict": "NEGATIVE (loss gets worse)",
+      "label": "b3",
+      "by_entity_type": {
+        "synthetic": {
+          "count": 5,
+          "mean_loss_delta": 0.002357,
+          "mean_jaccard": 0.0
+        },
+        "semantic": {
+          "count": 5,
+          "mean_loss_delta": 0.000749,
+          "mean_jaccard": 0.0286
+        },
+        "none": {
+          "count": 40,
+          "mean_loss_delta": 0.0,
+          "mean_jaccard": 0.0
+        }
+      },
+      "criteria": {
+        "synthetic_improves": false,
+        "synthetic_better_than_none": false,
+        "routing_shift": false
+      }
+    }
+  },
+  "conclusion": "NEGATIVE: Memory bias degrades synthetic entity loss. Destructive at this scale."
+}
