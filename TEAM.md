@@ -35,13 +35,11 @@ Tester
 
 This project is released under the [PolyForm Noncommercial License 1.0.0](LICENSE). Noncommercial use — research, experimentation, personal projects — is freely permitted. Commercial use is not.
 
-If Bob ever becomes commercially viable, the intent is clear: **Ryan Howard, Brogan Howard, and Cullen Howard** are the designated successors to this work. That intent is documented here and in `docs/succession.md` so there is no ambiguity about who Bob belongs to after Jeffery.
-
 ---
 
 ## About the Name
 
-HalcyonAIR. Halcyon for the quiet and the hopeful. AIR because everything here breathes.
+HalcyonAIR. Halcyon for the quiet and the hopeful. AIR = AI Research.
 
 ---
 
